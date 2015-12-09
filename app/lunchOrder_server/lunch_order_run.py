@@ -11,6 +11,7 @@ sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dwkim:qnxkrgo@192.168.10.20/lunch_order'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 class Users(db.Model):
@@ -110,25 +111,34 @@ class chose_menus(db.Model):
 	def __repr__(self):
 		return "<User('%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % (self.id, self.order_date, self.user_id, self.selected_store_id, self.selected_menu_id, self.created_at, self.updated_at)
 
-@app.route('/loadData', methods=['GET','POST'])
-def loadData():
-	model = Users.query.all()
-	
-	model_to_dict(model)
-	return json.dump()
+@app.route('/users', methods=['GET'])
+def getAllUsers():
+ 	model = Users.query.all()
+	return json.dumps(model_to_dict_list(model), ensure_ascii=False)
 
-def model_to_dict(list_model):
-	pdb.set_trace()
-	ret_data = []
-	ret_dict = {}
-	
-	for model in list_model:
+@app.route('/user/<id>', methods=['GET'])
+def getUser(id):
+	model = Users.query.filter(Users.id == id)
+	return json.dumps(model_to_dict_list(model), ensure_ascii=False)
+ 		 
+def model_to_dict_list(list_model):
+ 	ret_data = []
+	user_object = {}
+ 			 	
+ 	for model in list_model:
 		columns = model.__table__.columns.keys()
-		for column in columns:
-			ret_dict[column] = model.column
-		ret_data.append()
+		for key in model.__table__.columns.keys():
+			for column in columns:
+				column_value = getattr(model, key)
+				if(type(column_value) == unicode):
+					user_object[key] = column_value.encode('utf-8')
+				else:
+					user_object[key] = column_value
 
-	return ret_data
+			ret_data.append(user_object)
+			user_object = {}
+ 	
+ 	return ret_data
 
 if __name__ == "__main__":
 	app.run(debug=True, host='0.0.0.0', port=8000)
