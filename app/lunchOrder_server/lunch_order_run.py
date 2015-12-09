@@ -13,15 +13,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dwkim:qnxkrgo@192.168.10.20/lunch_order'
 db = SQLAlchemy(app)
 
-class Users(db.Model):
-	id = db.Column(Integer, primary_key=True)
-	name = db.Column(String(10))
-	team_id = db.Column(Integer)
-
-	def __init__(self, id, name, team_id):
-		self.id = id
-		self.name = name
-		self.team_id = team_id
+def init_db_instance:
+	users = Users(db)
 
 class Teams(db.Model):
 	id = db.Column(Integer, primary_key=True)
