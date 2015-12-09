@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Meshkorea lunch order page</title>
+</head>
+<body>
+
+<h1>today order manager</h1>
+{% if user_list %}
+<select name="users">
+	{% for user in user_list %}
+		<option value="">직업선택</option>
+	{% endfor %}
+{% endif %}
+</select>
+
+</body>
+</html>
