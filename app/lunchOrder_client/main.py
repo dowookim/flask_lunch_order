@@ -1,10 +1,14 @@
 from flask import Flask, render_template
+import requests
+import pdb
+
 app = Flask(__name__)
 
 @app.route('/main')
-def hello_world():
-	user_list = ['asd','asd']
+def main():
+	r = requests.get('http://localhost:8000/users')
+	user_list = r.json()
 	return render_template('main.html', user_list=user_list)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8001)
+    app.run(host='127.0.0.1', port=8001)

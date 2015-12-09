@@ -1,18 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <title>Meshkorea lunch order page</title>
 </head>
 <body>
+<center>
+	<h1>today order manager</h1>
+	{% if user_list %}
+	<select name="today_order_manager_list">
+		{% for user in user_list %}
+		<option value={{ user.id }}>{{ user.name }}</option>
+		{% endfor %}
+	</select>
+	<button>set</button>
+	{% endif %}
+</center>
+<table class="table">
+	<thead>
+		<th>lab</th>
+		<th>name</th>
+		<th>menu</th>
+		<th>option</th>
+		<th>ex_menu</th>
+		<th>set</th>
+	</thead>
+	{% if user_list %}
+	<tbody>
+		{% for user in user_list %}
+		<tr>
+			<td>{{ user.team_id }}</td>
+			<td>{{ user.name }}</td>
+			<td>
+				<select name="selected_menu">
+					<option value=1>menu1</option>
+					<option value=2>menu2</option>
+				</select>
+			</td>
+			<td>
+				<select name="selected_option">
+					<option value=1>option1</option>
+					<option value=2>option2</option>
+				</select>
+			</td>
+			<td>
+				<select name="selected_menu">
+					<option value=1>menu1</option>
+					<option value=2>menu2</option>
+				</select>
+			</td>
+			<td>
+				<button>set</button>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	{% endif %}
+</table>
 
-<h1>today order manager</h1>
-{% if user_list %}
-<select name="users">
-	{% for user in user_list %}
-		<option value="">직업선택</option>
-	{% endfor %}
-{% endif %}
-</select>
+<table class="table">
+	<thead>
+		<th>store</th>
+		<th>menu</th>
+		<th>count</th>
+		<th>price</th>
+		<th>deliveryFee</th>
+	</thead>
+	<tr>
+		<td>on the border</td>
+		<td>que sa di a</td>
+		<td>10</td>
+		<td>123,000</td>
+		<td>0</td>
+	</tr>
+	<tr>
+		<td>on the border</td>
+		<td>que sa di a</td>
+		<td>10</td>
+		<td>123,000</td>
+		<td>0</td>
+	</tr>
+</table>
 
 </body>
 </html>

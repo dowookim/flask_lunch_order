@@ -123,9 +123,9 @@ def getUser(id):
  		 
 def model_to_dict_list(list_model):
  	ret_data = []
-	user_object = {}
- 			 	
+	
  	for model in list_model:
+ 		user_object = {}
 		columns = model.__table__.columns.keys()
 		for key in model.__table__.columns.keys():
 			for column in columns:
@@ -134,11 +134,9 @@ def model_to_dict_list(list_model):
 					user_object[key] = column_value.encode('utf-8')
 				else:
 					user_object[key] = column_value
-
-			ret_data.append(user_object)
-			user_object = {}
+		ret_data.append(user_object)
  	
  	return ret_data
 
 if __name__ == "__main__":
-	app.run(debug=True, host='0.0.0.0', port=8000)
+	app.run(host='127.0.0.1', port=8000)
