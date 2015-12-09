@@ -14,17 +14,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dwkim:qnxkrgo@192.168.10.20/lun
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
-class Users(db.Model):
-	id = db.Column(Integer, primary_key=True)
-	name = db.Column(String(10))
-	team_id = db.Column(Integer)
+def init_db_instance:
+	users = Users(db)
 
-	def __init__(self, id, name, team_id):
-		self.id = id
-		self.name = name
-		self.team_id = team_id
-
-class Team(db.Model):
+class Teams(db.Model):
 	id = db.Column(Integer, primary_key=True)
 	name = db.Column(String(50))
 
@@ -56,7 +49,7 @@ class Products(db.Model):
 	def __repr__(self):
 		return "<User('%s', '%s', '%s')>" % (self.id, self.store_id, self.name)
 
-class Today_Stores(db.Model):
+class Today_stores(db.Model):
 	id = db.Column(Integer, primary_key=True)
 	order_date = db.Column(Date)
 	store_id = db.Column(Integer)
