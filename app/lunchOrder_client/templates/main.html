@@ -15,7 +15,7 @@
 <center>
 	<h1>오늘의 점심 주문</h1>
 	{% for todayOrderManager in todayOrderManagers %}
-	<h1>주문자 = {{ todayOrderManager.name }}</h1>
+	<h1>주문자 = {{ todayOrderManager.id }}</h1>
 	{% endfor %}
 	<select name="today_order_manager_list">
 		{% for user in user_list %}

@@ -14,7 +14,7 @@ def main():
 
 	request_todayOrderManagers = requests.get('http://localhost:8000/today_order_managers')
 	todayOrderManagers = request_todayOrderManagers.json()
-	
+
 	return render_template('main.html', user_list=user_list,
 										store_list=store_list,
 										todayOrderManagers=todayOrderManagers)

@@ -3,6 +3,7 @@ import sys
 from flask import Flask, request, jsonify;
 from sqlalchemy import Column, Integer, String, DateTime, Date
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
 import json
 import pdb
 
@@ -14,7 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dwkim:qnxkrgo@192.168.88.152/lu
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
-class Users(db.Model):
+class users(db.Model):
 	id = db.Column(Integer, primary_key=True)
 	name = db.Column(String(10))
 	team_id = db.Column(Integer)
@@ -24,7 +25,7 @@ class Users(db.Model):
 		self.name = name
 		self.team_id = team_id
 
-class Teams(db.Model):
+class teams(db.Model):
 	id = db.Column(Integer, primary_key=True)
 	name = db.Column(String(50))
 
@@ -32,7 +33,7 @@ class Teams(db.Model):
 		self.id = id
 		self.name = name
 
-class Stores(db.Model):
+class stores(db.Model):
 	id = db.Column(Integer, primary_key=True)
 	name = db.Column(String(128))
 
@@ -73,7 +74,7 @@ class Today_stores(db.Model):
 	def __repr__(self):
 		return "<User('%s', '%s', '%s', '%s', '%s')>" % (self.id, self.order_date, self.store_id, self.created_at, self.updated_at)
 
-class Order_Manager(db.Model):
+class order_managers(db.Model):
 	id = db.Column(Integer, primary_key=True)
 	order_date = db.Column(Date)
 	user_id = db.Column(Integer)
@@ -113,18 +114,23 @@ class chose_menus(db.Model):
 
 @app.route('/users', methods=['GET'])
 def getAllUsers():
- 	model = Users.query.all()
-	return json.dumps(model_to_dict_list(model), ensure_ascii=False)
+ 	user_list = users.query.all()
+	return json.dumps(model_to_dict_list(user_list), ensure_ascii=False)
 
 @app.route('/user/<id>', methods=['GET'])
 def getUser(id):
-	model = Users.query.filter(Users.id == id)
-	return json.dumps(model_to_dict_list(model), ensure_ascii=False)
+	user = users.query.filter(users.id == id)
+	return json.dumps(model_to_dict_list(user), ensure_ascii=False)
 
 @app.route('/stores', methods=['GET'])
 def getAllStores():
-	model = Stores.query.all()
-	return json.dumps(model_to_dict_list(model), ensure_ascii=False)
+	store_list = stores.query.all()
+	return json.dumps(model_to_dict_list(store_list), ensure_ascii=False)
+
+@app.route('/today_order_managers', methods=['GET'])
+def getTodayOrderManagers():
+	todayOrderManager_list = order_managers.query.filter(order_managers.order_date == date.today())
+	return json.dumps(model_to_dict_list(todayOrderManager_list), ensure_ascii=False)
  		 
 def model_to_dict_list(list_model):
  	ret_data = []
@@ -136,9 +142,9 @@ def model_to_dict_list(list_model):
 			for column in columns:
 				column_value = getattr(model, key)
 				if(type(column_value) == unicode):
-					user_object[key] = column_value.encode('utf-8')
+					user_object[key] = str(column_value.encode('utf-8'))
 				else:
-					user_object[key] = column_value
+					user_object[key] = str(column_value)
 		ret_data.append(user_object)
  	
  	return ret_data
