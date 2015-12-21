@@ -10,7 +10,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dwkim:qnxkrgo@192.168.10.20/lunch_order'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dwkim:qnxkrgo@192.168.88.152/lunch_order'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
@@ -120,6 +120,11 @@ def getAllUsers():
 def getUser(id):
 	model = Users.query.filter(Users.id == id)
 	return json.dumps(model_to_dict_list(model), ensure_ascii=False)
+
+@app.route('/stores', methods=['GET'])
+def getAllStores():
+	model = Stores.query.all()
+	return json.dumps(model_to_dict_list(model), ensure_ascii=False)
  		 
 def model_to_dict_list(list_model):
  	ret_data = []
@@ -139,4 +144,4 @@ def model_to_dict_list(list_model):
  	return ret_data
 
 if __name__ == "__main__":
-	app.run(host='127.0.0.1', port=8000)
+	app.run(host='127.0.0.1', port=8000, debug=True)

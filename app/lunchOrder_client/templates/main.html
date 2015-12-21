@@ -13,24 +13,31 @@
 </head>
 <body>
 <center>
-	<h1>today order manager</h1>
-	{% if user_list %}
+	<h1>오늘의 점심 주문</h1>
+	{% for todayOrderManager in todayOrderManagers %}
+	<h1>주문자 = {{ todayOrderManager.name }}</h1>
+	{% endfor %}
 	<select name="today_order_manager_list">
 		{% for user in user_list %}
 		<option value={{ user.id }}>{{ user.name }}</option>
 		{% endfor %}
 	</select>
-	<button>set</button>
-	{% endif %}
+	<button>설정</button>
+	<select name="store_list">
+		{% for store in store_list  %}
+		<option value={{ store.id }}>{{ store.name }}</option>
+		{% endfor %}
+	</select>
+	<button>설정</button>
 </center>
 <table class="table">
 	<thead>
-		<th>lab</th>
-		<th>name</th>
-		<th>menu</th>
-		<th>option</th>
-		<th>ex_menu</th>
-		<th>set</th>
+		<th>소속</th>
+		<th>이름</th>
+		<th>메뉴</th>
+		<th>옵션</th>
+		<th>추가메뉴</th>
+		<th></th>
 	</thead>
 	{% if user_list %}
 	<tbody>
@@ -57,7 +64,7 @@
 				</select>
 			</td>
 			<td>
-				<button>set</button>
+				<button>설정</button>
 			</td>
 		</tr>
 		{% endfor %}
